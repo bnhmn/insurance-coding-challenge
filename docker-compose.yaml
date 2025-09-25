@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: db-password
     volumes:
       - postgres-storage:/var/lib/postgresql/data
+      - ./postcodes.csv:/data/postcodes.csv:ro
     ports:
       - "5432:5432"
 

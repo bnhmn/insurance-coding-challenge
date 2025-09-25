@@ -5,3 +5,6 @@ spring:
     password: db-password
   jackson:
     default-property-inclusion: non_null
+  docker:
+    compose:
+      lifecycle-management: start_only
