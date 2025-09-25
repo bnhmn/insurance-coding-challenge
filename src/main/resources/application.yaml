@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/insurance
+    username: db-user
+    password: db-password
+  jackson:
+    default-property-inclusion: non_null

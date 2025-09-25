@@ -1,4 +1,20 @@
-# Service zur Berechnung einer Versicherungsprämie
+# Vehicle Insurance Pricing Service
+
+## Requirements
+
+[Java 21](https://www.oracle.com/de/java/technologies/downloads/),
+[Docker](https://docs.docker.com/get-docker/) and
+[Docker Compose](https://docs.docker.com/compose/install/).
+
+## How to Run
+
+Execute `./gradlew bootRun`.
+
+## How to Test
+
+Execute `./gradlew test`.
+
+## Background
 
 Eine Versicherung berechnet die Versicherungsprämie auf Basis von:
 
