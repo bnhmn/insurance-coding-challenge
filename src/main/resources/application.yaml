@@ -8,3 +8,7 @@ spring:
   docker:
     compose:
       lifecycle-management: start_only
+
+logging:
+  level:
+    de.insurance.vehiclepricing: debug

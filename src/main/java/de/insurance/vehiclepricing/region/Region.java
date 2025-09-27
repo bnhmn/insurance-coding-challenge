@@ -1,4 +1,4 @@
-package de.insurance.vehiclepricing.model.region;
+package de.insurance.vehiclepricing.region;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Region {
+class Region {
 
     @Id
     private UUID id;
@@ -22,8 +22,15 @@ public class Region {
 
     private String location;
 
+    public State getState() {
+        return State.fromName(state);
+    }
+
+    /**
+     * The region factor for calculating the insurance premium. It is based on the federal state in which the region is
+     * located.
+     */
     public BigDecimal getFactor() {
-        var state = State.fromName(this.state);
-        return state.getFactor();
+        return getState().getFactor();
     }
 }

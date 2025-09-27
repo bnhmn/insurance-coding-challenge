@@ -10,6 +10,32 @@
 
 Execute `./gradlew bootRun`.
 
+## How to Use
+
+### Request
+
+```bash
+curl -s -X POST localhost:8080/pricing/calculations \
+  --header "Content-Type: application/json" \
+  --data '
+    { 
+      "vehicleType": "CAR",
+      "postalCode": "53115",
+      "annualMileage": 5000
+    }'
+```
+
+### Response
+
+```json
+{
+  "vehicleType": "CAR",
+  "postalCode": "53115",
+  "annualMileage": 5000,
+  "annualPremium": 335.00
+}
+```
+
 ## How to Test
 
 Execute `./gradlew test`.

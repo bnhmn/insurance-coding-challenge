@@ -1,4 +1,4 @@
-package de.insurance.vehiclepricing.model.region;
+package de.insurance.vehiclepricing.region;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public enum State {
+enum State {
     BW(new BigDecimal("1.23"), "Baden-Württemberg"),
     BY(new BigDecimal("0.94"), "Bayern"),
     BE(new BigDecimal("1.45"), "Berlin"),

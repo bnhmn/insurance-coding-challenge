@@ -1,8 +1,5 @@
-package de.insurance.vehiclepricing.api;
+package de.insurance.vehiclepricing.pricing;
 
-import de.insurance.vehiclepricing.model.PricingRequest;
-import de.insurance.vehiclepricing.model.PricingResponse;
-import de.insurance.vehiclepricing.service.PricingService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/pricing")
 @RequiredArgsConstructor
-public class PricingController {
+class PricingController {
 
     private final PricingService pricingService;
 
     @PostMapping("/calculations")
     public ResponseEntity<PricingResponse> calculate(@Valid @RequestBody PricingRequest request) {
-        var response = pricingService.calculate(request);
-        return ResponseEntity.ok(response);
+        var pricing = pricingService.calculate(request);
+        return ResponseEntity.ok(pricing);
     }
 }

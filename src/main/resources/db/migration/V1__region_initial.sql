@@ -8,8 +8,7 @@ CREATE TABLE region
     location    TEXT
 );
 
-CREATE UNIQUE INDEX region_unique_idx
-    ON region (state, district, city, postal_code, location);
+CREATE INDEX idx_region_postal_code ON region (postal_code);
 
 
 -- import region csv file
@@ -48,5 +47,4 @@ SELECT trim(region1)      AS state,
        trim(region4)      AS city,
        trim(postleitzahl) AS postal_code,
        trim(ort)          AS location
-FROM tmp_postcodes
-ON CONFLICT (state, district, city, postal_code, location) DO NOTHING;
+FROM tmp_postcodes;
