@@ -45,6 +45,6 @@ tasks.withType<Test> {
 spotless {
     java {
         toggleOffOn()
-        palantirJavaFormat()
+        palantirJavaFormat("2.39.0").style("GOOGLE").formatJavadoc(true)
     }
 }

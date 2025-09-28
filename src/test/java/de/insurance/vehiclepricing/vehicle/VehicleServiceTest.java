@@ -14,41 +14,41 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class VehicleServiceTest {
 
-    @Autowired
-    private VehicleService vehicleService;
+  @Autowired
+  private VehicleService vehicleService;
 
-    @ParameterizedTest
-    @MethodSource("mileages")
-    void shouldDetermineTheCorrectMileageFactor(int annualMileageKm, String expectedMileageFactor) {
-        var actualMileageFactor = vehicleService.computeMileageFactor(annualMileageKm);
-        assertThat(actualMileageFactor).isEqualTo(new BigDecimal(expectedMileageFactor));
-    }
+  @ParameterizedTest
+  @MethodSource("mileages")
+  void shouldDetermineTheCorrectMileageFactor(int annualMileageKm, String expectedMileageFactor) {
+    var actualMileageFactor = vehicleService.computeMileageFactor(annualMileageKm);
+    assertThat(actualMileageFactor).isEqualTo(new BigDecimal(expectedMileageFactor));
+  }
 
-    private static Stream<Arguments> mileages() {
-        return Stream.of(
-                arguments(-1, "0.5"),
-                arguments(0, "0.5"),
-                arguments(1, "0.5"),
-                arguments(5_000, "0.5"),
-                arguments(5_001, "1.0"),
-                arguments(10_000, "1.0"),
-                arguments(10_001, "1.5"),
-                arguments(20_000, "1.5"),
-                arguments(20_0001, "2.0"),
-                arguments(100_000, "2.0"));
-    }
+  private static Stream<Arguments> mileages() {
+    return Stream.of(
+        arguments(-1, "0.5"),
+        arguments(0, "0.5"),
+        arguments(1, "0.5"),
+        arguments(5_000, "0.5"),
+        arguments(5_001, "1.0"),
+        arguments(10_000, "1.0"),
+        arguments(10_001, "1.5"),
+        arguments(20_000, "1.5"),
+        arguments(20_0001, "2.0"),
+        arguments(100_000, "2.0"));
+  }
 
-    @ParameterizedTest
-    @MethodSource("vehicleTypes")
-    void shouldDetermineTheCorrectTypeFactor(VehicleType vehicleType, String expectedTypeFactor) {
-        var actualTypeFactor = vehicleService.computeTypeFactor(vehicleType);
-        assertThat(actualTypeFactor).isEqualTo(new BigDecimal(expectedTypeFactor));
-    }
+  @ParameterizedTest
+  @MethodSource("vehicleTypes")
+  void shouldDetermineTheCorrectTypeFactor(VehicleType vehicleType, String expectedTypeFactor) {
+    var actualTypeFactor = vehicleService.computeTypeFactor(vehicleType);
+    assertThat(actualTypeFactor).isEqualTo(new BigDecimal(expectedTypeFactor));
+  }
 
-    private static Stream<Arguments> vehicleTypes() {
-        return Stream.of(
-                arguments(VehicleType.CAR, "500.00"),
-                arguments(VehicleType.TRUCK, "1700.00"),
-                arguments(VehicleType.MOTORCYCLE, "150.00"));
-    }
+  private static Stream<Arguments> vehicleTypes() {
+    return Stream.of(
+        arguments(VehicleType.CAR, "500.00"),
+        arguments(VehicleType.TRUCK, "1700.00"),
+        arguments(VehicleType.MOTORCYCLE, "150.00"));
+  }
 }

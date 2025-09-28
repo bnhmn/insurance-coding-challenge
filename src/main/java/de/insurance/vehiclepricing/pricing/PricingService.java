@@ -12,35 +12,37 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class PricingService {
 
-    private final RegionService regionService;
-    private final VehicleService vehicleService;
-    private final PricingRepository pricingRepository;
+  private final RegionService regionService;
+  private final VehicleService vehicleService;
+  private final PricingRepository pricingRepository;
 
-    /**
-     * Calculate the annual insurance premium for a vehicle based on mileage, vehicle type, and region.
-     * <pre>
-     * annualPremium = mileageFactor * typeFactor * regionFactor
-     * </pre>
-     */
-    public PricingResponse calculate(PricingRequest request) {
-        var mileageFactor = vehicleService.computeMileageFactor(request.getAnnualMileage());
-        var typeFactor = vehicleService.computeTypeFactor(request.getVehicleType());
-        var regionFactor =
-                // Normally, we should implement a proper error handling for the region-not-found case
-                regionService.findRegionFactor(request.getPostalCode()).orElseThrow();
+  /**
+   * Calculate the annual insurance premium for a vehicle based on mileage, vehicle type, and
+   * region.
+   *
+   * <pre>
+   * annualPremium = mileageFactor * typeFactor * regionFactor
+   * </pre>
+   */
+  public PricingResponse calculate(PricingRequest request) {
+    var mileageFactor = vehicleService.computeMileageFactor(request.getAnnualMileage());
+    var typeFactor = vehicleService.computeTypeFactor(request.getVehicleType());
+    var regionFactor =
+        // Normally, we should implement a proper error handling for the region-not-found case
+        regionService.findRegionFactor(request.getPostalCode()).orElseThrow();
 
-        var annualPremium =
-                mileageFactor.multiply(typeFactor).multiply(regionFactor).setScale(2, RoundingMode.HALF_UP);
-        log.debug(
-                "The annual premium is {}€ for mileageFactor={} typeFactor={} regionFactor={}",
-                annualPremium,
-                mileageFactor,
-                typeFactor,
-                regionFactor);
+    var annualPremium =
+        mileageFactor.multiply(typeFactor).multiply(regionFactor).setScale(2, RoundingMode.HALF_UP);
+    log.debug(
+        "The annual premium is {}€ for mileageFactor={} typeFactor={} regionFactor={}",
+        annualPremium,
+        mileageFactor,
+        typeFactor,
+        regionFactor);
 
-        var pricing = Pricing.of(request, annualPremium);
-        pricingRepository.save(pricing);
+    var pricing = Pricing.of(request, annualPremium);
+    pricingRepository.save(pricing);
 
-        return PricingResponse.of(pricing);
-    }
+    return PricingResponse.of(pricing);
+  }
 }

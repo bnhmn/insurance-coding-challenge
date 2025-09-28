@@ -11,24 +11,18 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 class PricingRequest {
 
-    /**
-     * The entered vehicle type.
-     */
-    @NotNull
-    VehicleType vehicleType;
+  /** The entered vehicle type. */
+  @NotNull
+  VehicleType vehicleType;
 
-    /**
-     * The entered postal code of the registration office.
-     */
-    @NotNull
-    @Digits(integer = 5, fraction = 0)
-    String postalCode;
+  /** The entered postal code of the registration office. */
+  @NotNull
+  @Digits(integer = 5, fraction = 0)
+  String postalCode;
 
-    /**
-     * The entered annual mileage in kilometers.
-     */
-    @NotNull
-    @Min(0)
-    @Max(100_000)
-    Integer annualMileage;
+  /** The entered annual mileage in kilometers. */
+  @NotNull
+  @Min(0)
+  @Max(100_000)
+  Integer annualMileage;
 }

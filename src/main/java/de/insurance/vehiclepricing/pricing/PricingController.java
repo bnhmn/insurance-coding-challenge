@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 class PricingController {
 
-    private final PricingService pricingService;
+  private final PricingService pricingService;
 
-    @PostMapping("/calculations")
-    public ResponseEntity<PricingResponse> calculate(@Valid @RequestBody PricingRequest request) {
-        var pricing = pricingService.calculate(request);
-        return ResponseEntity.ok(pricing);
-    }
+  @PostMapping("/calculations")
+  public ResponseEntity<PricingResponse> calculate(@Valid @RequestBody PricingRequest request) {
+    var pricing = pricingService.calculate(request);
+    return ResponseEntity.ok(pricing);
+  }
 }

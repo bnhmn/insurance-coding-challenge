@@ -17,48 +17,48 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class PricingServiceTest {
 
-    @Autowired
-    private PricingService pricingService;
+  @Autowired
+  private PricingService pricingService;
 
-    @Autowired
-    private PricingRepository pricingRepository;
+  @Autowired
+  private PricingRepository pricingRepository;
 
-    @BeforeEach
-    void setUp() {
-        pricingRepository.deleteAll();
-    }
+  @BeforeEach
+  void setUp() {
+    pricingRepository.deleteAll();
+  }
 
-    @ParameterizedTest
-    @MethodSource("pricingRequests")
-    void shouldComputeTheCorrectPrice(PricingRequest request, String expectedAnnualPremium) {
-        var expectedPremium = new BigDecimal(expectedAnnualPremium);
+  @ParameterizedTest
+  @MethodSource("pricingRequests")
+  void shouldComputeTheCorrectPrice(PricingRequest request, String expectedAnnualPremium) {
+    var expectedPremium = new BigDecimal(expectedAnnualPremium);
 
-        var response = pricingService.calculate(request);
+    var response = pricingService.calculate(request);
 
-        assertThat(response.getVehicleType()).isEqualTo(request.getVehicleType());
-        assertThat(response.getPostalCode()).isEqualTo(request.getPostalCode());
-        assertThat(response.getAnnualMileage()).isEqualTo(request.getAnnualMileage());
-        assertThat(response.getAnnualPremium()).isEqualTo(expectedPremium);
+    assertThat(response.getVehicleType()).isEqualTo(request.getVehicleType());
+    assertThat(response.getPostalCode()).isEqualTo(request.getPostalCode());
+    assertThat(response.getAnnualMileage()).isEqualTo(request.getAnnualMileage());
+    assertThat(response.getAnnualPremium()).isEqualTo(expectedPremium);
 
-        assertThat(pricingRepository.findAll()).singleElement().satisfies(record -> {
-            assertThat(record.getVehicleType()).isEqualTo(request.getVehicleType());
-            assertThat(record.getPostalCode()).isEqualTo(request.getPostalCode());
-            assertThat(record.getAnnualMileage()).isEqualTo(request.getAnnualMileage());
-            assertThat(record.getAnnualPremium()).isEqualTo(expectedPremium);
-        });
-    }
+    assertThat(pricingRepository.findAll()).singleElement().satisfies(record -> {
+      assertThat(record.getVehicleType()).isEqualTo(request.getVehicleType());
+      assertThat(record.getPostalCode()).isEqualTo(request.getPostalCode());
+      assertThat(record.getAnnualMileage()).isEqualTo(request.getAnnualMileage());
+      assertThat(record.getAnnualPremium()).isEqualTo(expectedPremium);
+    });
+  }
 
-    private static Stream<Arguments> pricingRequests() {
-        // spotless:off
-        return Stream.of(
-            arguments(aRequest().vehicleType(CAR).postalCode("53115").annualMileage(10_000).build(), "670.00"),
-            arguments(aRequest().vehicleType(TRUCK).postalCode("53115").annualMileage(80_000).build(), "4556.00"),
-            arguments(aRequest().vehicleType(MOTORCYCLE).postalCode("53115").annualMileage(5_000).build(), "100.50")
-        );
-        // spotless:on
-    }
+  private static Stream<Arguments> pricingRequests() {
+    // spotless:off
+    return Stream.of(
+        arguments(aRequest().vehicleType(CAR).postalCode("53115").annualMileage(10_000).build(), "670.00"),
+        arguments(aRequest().vehicleType(TRUCK).postalCode("53115").annualMileage(80_000).build(), "4556.00"),
+        arguments(aRequest().vehicleType(MOTORCYCLE).postalCode("53115").annualMileage(5_000).build(), "100.50")
+    );
+    // spotless:on
+  }
 
-    private static PricingRequestBuilder aRequest() {
-        return PricingRequest.builder();
-    }
+  private static PricingRequestBuilder aRequest() {
+    return PricingRequest.builder();
+  }
 }

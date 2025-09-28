@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 interface RegionRepository extends JpaRepository<Region, UUID> {
 
-    Optional<Region> findFirstByPostalCode(String postalCode);
+  Optional<Region> findFirstByPostalCode(String postalCode);
 }
