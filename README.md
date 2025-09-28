@@ -18,7 +18,7 @@ Execute `./gradlew bootRun`.
 curl -s -X POST localhost:8080/pricing/calculations \
   --header "Content-Type: application/json" \
   --data '
-    { 
+    {
       "vehicleType": "CAR",
       "postalCode": "53115",
       "annualMileage": 10000
@@ -39,6 +39,13 @@ curl -s -X POST localhost:8080/pricing/calculations \
 ## How to Test
 
 Execute `./gradlew test`.
+
+## Frontend
+
+* Make sure the backend is running.
+* Switch to the [webui](./webui/) folder.
+* Run `npm ci` to install the Node dependencies.
+* Run `npm run dev` to run the frontend.
 
 ## Background
 
