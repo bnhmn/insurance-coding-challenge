@@ -27,3 +27,9 @@ replay_pid*
 .vscode
 .gradle
 build
+
+node_modules
+dist
+out
+.DS_Store
+npm-debug.log*
