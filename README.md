@@ -21,7 +21,7 @@ curl -s -X POST localhost:8080/pricing/calculations \
     { 
       "vehicleType": "CAR",
       "postalCode": "53115",
-      "annualMileage": 5000
+      "annualMileage": 10000
     }'
 ```
 
@@ -31,8 +31,8 @@ curl -s -X POST localhost:8080/pricing/calculations \
 {
   "vehicleType": "CAR",
   "postalCode": "53115",
-  "annualMileage": 5000,
-  "annualPremium": 335.00
+  "annualMileage": 10000,
+  "annualPremium": 670.00
 }
 ```
 

@@ -2,9 +2,13 @@ package de.insurance.vehiclepricing.pricing;
 
 import de.insurance.vehiclepricing.vehicle.VehicleType;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 @Value
+@Builder
+@Jacksonized
 class PricingRequest {
 
     /**

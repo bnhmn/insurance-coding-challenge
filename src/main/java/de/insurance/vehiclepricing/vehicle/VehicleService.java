@@ -27,7 +27,7 @@ public class VehicleService {
     public BigDecimal computeTypeFactor(VehicleType vehicleType) {
         return switch (vehicleType) {
             case CAR -> new BigDecimal("500.00");
-            case TRUCK -> new BigDecimal("2500.00");
+            case TRUCK -> new BigDecimal("1700.00");
             case MOTORCYCLE -> new BigDecimal("150.00");
         };
     }
