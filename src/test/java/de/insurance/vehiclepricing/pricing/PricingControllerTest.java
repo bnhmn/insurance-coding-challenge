@@ -5,7 +5,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,8 +43,49 @@ class PricingControllerTest {
                     {
                       "vehicleType": "CAR",
                       "postalCode": "53115",
-                      "annualMileage": 10000
+                      "annualMileage": 10000,
+                      "annualPremium": 670.00
                     }
                     """));
+  }
+
+  @ParameterizedTest
+  @MethodSource("invalidRequests")
+  void shouldRejectInvalidRequests(String invalidRequest) throws Exception {
+    mockMvc
+        .perform(
+            post("/pricing/calculations").contentType(APPLICATION_JSON).content(invalidRequest))
+        .andExpect(status().isBadRequest());
+  }
+
+  private static Stream<String> invalidRequests() {
+    return Stream.of(
+        """
+        { "vehicleType": "CAR", "postalCode": "53115" }
+        """,
+        """
+        { "vehicleType": "CAR", "annualMileage": 10000 }
+        """,
+        """
+        { "postalCode": "53115", "annualMileage": 10000 }
+        """,
+        """
+        { "vehicleType": null, "postalCode": "53115", "annualMileage": 10000 }
+        """,
+        """
+        { "vehicleType": "unknown-type", "postalCode": "53115", "annualMileage": 10000 }
+        """,
+        """
+        { "vehicleType": "CAR", "postalCode": null, "annualMileage": 10000 }
+        """,
+        """
+        { "vehicleType": "CAR", "postalCode": "123456", "annualMileage": 10000 }
+        """,
+        """
+        { "vehicleType": "CAR", "postalCode": "53115", "annualMileage": null }
+        """,
+        """
+        { "vehicleType": "CAR", "postalCode": "53115", "annualMileage": -1 }
+        """);
   }
 }
