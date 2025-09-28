@@ -36,7 +36,7 @@ export function VehiclePricingForm() {
     try {
       setLoading(true);
       setError(null);
-      const mileage = parseInt(formData.annualMileage.replace(/\./g, ""), 10);
+      const mileage = parseMileage(formData.annualMileage);
       const result = await calculatePremium({
         vehicleType: formData.vehicleType as VehicleType,
         postalCode: formData.postalCode,
@@ -57,21 +57,19 @@ export function VehiclePricingForm() {
 
   const handleMileageBlur = () => {
     if (formData.annualMileage) {
-      const numValue = parseInt(formData.annualMileage.replace(/\./g, ""), 10);
+      const numValue = parseMileage(formData.annualMileage);
       if (!isNaN(numValue) && numValue > 0) {
         const rounded = roundToNearest100(numValue);
-        const formatted = formatThousands(rounded);
+        const formatted = formatMileage(rounded);
         setFormData((prev) => ({ ...prev, annualMileage: formatted }));
       }
     }
   };
 
   const handleMileageAdjust = (adjustment: number) => {
-    const currentValue = formData.annualMileage
-      ? parseInt(formData.annualMileage.replace(/\./g, ""), 10)
-      : 0;
+    const currentValue = formData.annualMileage ? parseMileage(formData.annualMileage) : 0;
     const newValue = Math.max(100, currentValue + adjustment);
-    const formatted = formatThousands(newValue);
+    const formatted = formatMileage(newValue);
     setFormData((prev) => ({ ...prev, annualMileage: formatted }));
   };
 
@@ -129,7 +127,7 @@ export function VehiclePricingForm() {
 
         <div className="form-group">
           <label htmlFor="annualMileage" className="form-label">
-            Kilometerlaufleistung
+            Jährliche Laufleistung
           </label>
           <div className="mileage-input-container">
             <input
@@ -140,7 +138,7 @@ export function VehiclePricingForm() {
               onBlur={handleMileageBlur}
               className={`form-input ${submitted && errors.annualMileage ? "error" : ""}`}
               placeholder="10.000 km"
-              maxLength={7}
+              maxLength={10}
             />
             <div className="mileage-buttons">
               <button
@@ -211,8 +209,12 @@ function roundToNearest100(value: number): number {
   return Math.ceil(value / 100) * 100;
 }
 
-function formatThousands(value: number): string {
-  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+function formatMileage(value: number): string {
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " km";
+}
+
+function parseMileage(formattedMileage: string): number {
+ return parseInt(formattedMileage.replace(/\./g, ""), 10)
 }
 
 const currencyFormat = new Intl.NumberFormat("de-DE", {
